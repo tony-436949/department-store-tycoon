@@ -89,19 +89,22 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
   const isLast = currentSlide === SLIDES.length - 1;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="w-[90%] max-w-[360px] bg-gradient-to-b from-dark-navy-light to-dark-navy rounded-3xl border border-purple/30 shadow-2xl overflow-hidden">
+    <div
+      className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm"
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px 16px' }}
+    >
+      <div className="w-full max-w-[360px] bg-gradient-to-b from-[#2A2540] to-[#1A162B] rounded-3xl border border-purple/30 shadow-2xl">
         {/* 상단 이모지 영역 */}
-        <div className="flex items-center justify-center pt-10 pb-4">
-          <span className="text-7xl animate-bounce">{slide.emoji}</span>
+        <div className="flex items-center justify-center pt-8 pb-3">
+          <span className="text-6xl">{slide.emoji}</span>
         </div>
 
         {/* 콘텐츠 */}
-        <div className="px-6 pb-6 text-center">
-          <h2 className="text-gold font-bold text-xl mb-3 leading-tight">
+        <div className="px-6 pb-4 text-center">
+          <h2 className="text-gold font-bold text-lg mb-2 leading-tight">
             {slide.title}
           </h2>
-          <p className="text-white/80 text-sm leading-relaxed mb-4">
+          <p className="text-white/80 text-sm leading-relaxed mb-3">
             {slide.description}
           </p>
           {slide.highlight && (
@@ -132,7 +135,7 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
           {!isLast && (
             <button
               onClick={handleSkip}
-              className="flex-1 py-3 rounded-xl border border-white/20 text-white/50 text-sm font-medium"
+              className="flex-1 py-3 rounded-xl border border-white/20 text-white/50 text-sm font-medium active:bg-white/5"
             >
               건너뛰기
             </button>
