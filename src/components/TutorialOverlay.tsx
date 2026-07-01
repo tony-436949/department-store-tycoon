@@ -93,29 +93,27 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
       className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm"
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
     >
-      <div className="w-full max-w-[400px] bg-gradient-to-b from-[#2A2540] to-[#1A162B] rounded-3xl border border-purple/30 shadow-2xl">
-        {/* 상단 이모지 영역 */}
-        <div className="flex items-center justify-center pt-10 pb-4">
-          <span className="text-6xl">{slide.emoji}</span>
-        </div>
-
-        {/* 콘텐츠 */}
-        <div className="px-8 pb-5 text-center">
-          <h2 className="text-gold font-bold text-xl mb-3 leading-tight">
+      <div
+        className="w-[400px] h-[400px] max-w-[95vw] max-h-[95vh] bg-gradient-to-b from-[#2A2540] to-[#1A162B] rounded-3xl border border-purple/30 shadow-2xl flex flex-col justify-between"
+      >
+        {/* 상단: 이모지 + 콘텐츠 */}
+        <div className="flex-1 flex flex-col items-center justify-center px-8 pt-6">
+          <span className="text-5xl mb-4">{slide.emoji}</span>
+          <h2 className="text-gold font-bold text-lg mb-2 leading-tight text-center">
             {slide.title}
           </h2>
-          <p className="text-white/80 text-base leading-relaxed mb-4">
+          <p className="text-white/80 text-sm leading-relaxed text-center mb-3">
             {slide.description}
           </p>
           {slide.highlight && (
-            <div className="inline-block bg-purple/20 border border-purple/40 rounded-full px-5 py-2">
+            <div className="inline-block bg-purple/20 border border-purple/40 rounded-full px-4 py-1.5">
               <span className="text-purple-light text-sm font-bold">{slide.highlight}</span>
             </div>
           )}
         </div>
 
-        {/* 인디케이터 */}
-        <div className="flex justify-center gap-2 pb-5">
+        {/* 중간: 인디케이터 */}
+        <div className="flex justify-center gap-2 py-4">
           {SLIDES.map((_, i) => (
             <div
               key={i}
@@ -130,19 +128,19 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
           ))}
         </div>
 
-        {/* 버튼 영역 */}
-        <div className="px-8 pb-8 flex gap-4">
+        {/* 하단: 버튼 */}
+        <div className="px-6 pb-6 flex gap-4">
           {!isLast && (
             <button
               onClick={handleSkip}
-              className="flex-1 py-4 rounded-xl border border-white/20 text-white/50 text-base font-medium active:bg-white/5"
+              className="flex-1 py-3.5 rounded-xl border border-white/20 text-white/50 text-sm font-medium active:bg-white/5"
             >
               건너뛰기
             </button>
           )}
           <button
             onClick={handleNext}
-            className={`${isLast ? 'w-full' : 'flex-1'} py-4 rounded-xl bg-gradient-to-r from-gold to-gold-dark text-dark-navy text-lg font-bold shadow-lg shadow-gold/20 active:scale-95 transition-transform`}
+            className={`${isLast ? 'w-full' : 'flex-1'} py-3.5 rounded-xl bg-gradient-to-r from-gold to-gold-dark text-dark-navy text-base font-bold shadow-lg shadow-gold/20 active:scale-95 transition-transform`}
           >
             {isLast ? '🎮 게임 시작!' : '다음'}
           </button>
