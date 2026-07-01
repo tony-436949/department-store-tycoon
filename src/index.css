@@ -1,0 +1,704 @@
+@import "tailwindcss";
+
+/* 커스텀 컬러 팔레트 - 백화점 타이쿤 테마 */
+@theme {
+  --color-dark-navy: #1A162B;
+  --color-gold: #D4AF37;
+  --color-purple: #8E44AD;
+  --color-dark-navy-light: #2A2540;
+  --color-gold-light: #E8C84A;
+  --color-purple-light: #A855C7;
+  --color-gold-dark: #B8941F;
+  --color-purple-dark: #6C2D84;
+}
+
+/* 기본 스타일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+  background-color: #1A162B;
+  color: #ffffff;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* 모바일 게임 최적화: 더블탭 줌 방지 */
+  touch-action: manipulation;
+  /* 텍스트 선택 방지 (게임 UI) */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 터치 최적화 */
+button, a, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── VIP Overlay 스타일 ─────────────────────────────────────────── */
+
+.vip-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.vip-character {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  animation: vip-glow 1.5s ease-in-out infinite, vip-bounce 2s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  padding: 0;
+}
+
+.vip-label {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 800;
+  color: #D4AF37;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.8), 0 0 16px rgba(212, 175, 55, 0.4);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.vip-timer-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vip-icon {
+  font-size: 32px;
+  z-index: 1;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+}
+
+.vip-timer-text {
+  position: absolute;
+  bottom: -4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #E8C84A;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.vip-reward-effect {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: vip-reward-float 1.5s ease-out forwards;
+}
+
+.vip-reward-text {
+  font-size: 20px;
+  font-weight: 800;
+  color: #D4AF37;
+  text-shadow:
+    0 0 10px rgba(212, 175, 55, 0.9),
+    0 0 20px rgba(212, 175, 55, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+/* VIP 골드 글로우 애니메이션 */
+@keyframes vip-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8)) drop-shadow(0 0 40px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 60px rgba(212, 175, 55, 0.3));
+  }
+}
+
+/* VIP 바운스 애니메이션 */
+@keyframes vip-bounce {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -52%) scale(1.05);
+  }
+}
+
+/* VIP 보상 금액 플로팅 애니메이션 */
+@keyframes vip-reward-float {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  20% {
+    transform: translate(-50%, -60%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(1);
+  }
+}
+
+/* ─── Touch Effect Layer ─────────────────────────────────────── */
+
+.touch-effect-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.touch-effect-item {
+  position: absolute;
+  color: #D4AF37;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 8px rgba(212, 175, 55, 0.4);
+  animation: float-up 0.8s ease-out forwards;
+  pointer-events: none;
+  transform-origin: center center;
+  white-space: nowrap;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.8);
+  }
+}
+
+/* ─── Screen Shake ───────────────────────────────────────────── */
+
+.shake {
+  animation: shake 50ms linear;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+/* ─── Ending Popup (홀로그램 스타일 결과 화면) ──────────────────── */
+
+.ending-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 8, 20, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: ending-fade-in 0.5s ease-out;
+}
+
+.ending-popup {
+  position: relative;
+  width: 90%;
+  max-width: 360px;
+  padding: 2.5rem 1.5rem 2rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1E1A30 0%, #2A2540 50%, #1E1A30 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow:
+    0 0 30px rgba(212, 175, 55, 0.3),
+    0 0 60px rgba(142, 68, 173, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  animation: ending-scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 골드/퍼플 그라데이션 보더 */
+.ending-popup::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #D4AF37, #8E44AD, #D4AF37, #8E44AD);
+  background-size: 300% 300%;
+  animation: ending-border-shift 4s ease infinite;
+  z-index: -1;
+}
+
+/* 홀로그램 shimmer 효과 */
+.ending-hologram-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(212, 175, 55, 0.08) 35%,
+    rgba(212, 175, 55, 0.15) 50%,
+    rgba(142, 68, 173, 0.08) 65%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: hologram-shimmer 3s linear infinite;
+  pointer-events: none;
+}
+
+.ending-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #D4AF37;
+  text-shadow:
+    0 0 10px rgba(212, 175, 55, 0.6),
+    0 0 20px rgba(212, 175, 55, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.02em;
+}
+
+.ending-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ending-stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ending-stat-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.ending-stat-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.ending-stat-time {
+  color: #D4AF37;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
+}
+
+.ending-stat-revenue {
+  color: #E8C84A;
+  text-shadow: 0 0 6px rgba(232, 200, 74, 0.4);
+}
+
+.ending-stat-touch {
+  color: #A855C7;
+  text-shadow: 0 0 6px rgba(168, 85, 199, 0.4);
+}
+
+.ending-restart-btn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+  color: #1A162B;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.ending-restart-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+}
+
+/* 홀로그램 shimmer 키프레임 */
+@keyframes hologram-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* 팝업 등장 애니메이션 */
+@keyframes ending-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ending-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 보더 그라데이션 이동 */
+@keyframes ending-border-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   진화 연출 시스템 (Evolution Overlay Effects)
+   Requirements: 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10, 5.11, 12.3
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 공통 오버레이 스타일 */
+.evolution-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Canvas 공통 스타일 */
+.evo-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── 1. 먼지구름 (dust-cloud) ─── 1→2단계 ─── */
+
+.evo-dust-cloud {
+  position: absolute;
+  inset: 0;
+}
+
+.evo-dust-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(210, 180, 140, 0.7) 0%, rgba(139, 90, 43, 0.3) 70%, transparent 100%);
+  animation: evo-dust-swirl 1.5s ease-out forwards;
+}
+
+@keyframes evo-dust-swirl {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2) rotate(360deg) translateY(-30px);
+    opacity: 0;
+  }
+}
+
+/* ─── 2. 네온간판 점등 (neon-sign) ─── 2→3단계 ─── */
+
+.evo-neon-sign {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evo-neon-text {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #ff00ff;
+  text-shadow:
+    0 0 7px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 21px #ff00ff,
+    0 0 42px #D4AF37,
+    0 0 82px #D4AF37,
+    0 0 92px #D4AF37;
+  animation: evo-neon-flicker 1.5s steps(1) forwards;
+}
+
+.evo-neon-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+  animation: evo-neon-pulse 1.5s ease-out forwards;
+}
+
+@keyframes evo-neon-flicker {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  10% { opacity: 0.3; }
+  15% { opacity: 1; }
+  20% { opacity: 0.5; }
+  25% { opacity: 1; }
+  30% { opacity: 0.8; }
+  40% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes evo-neon-pulse {
+  0% { opacity: 0; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+  80% { opacity: 0.8; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+
+/* ─── 3. 렌즈플레어 (lens-flare) ─── 3→4단계 ─── */
+
+.evo-lens-flare {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evo-flare-core {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 60px 30px rgba(255, 255, 255, 0.8), 0 0 120px 60px rgba(212, 175, 55, 0.5);
+  animation: evo-flare-expand 1.5s ease-out forwards;
+}
+
+.evo-flare-ring {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  animation: evo-flare-ring-expand 1.5s ease-out forwards;
+}
+
+.evo-flare-streak {
+  position: absolute;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.8) 40%, #fff 50%, rgba(212, 175, 55, 0.8) 60%, transparent 100%);
+  animation: evo-flare-streak-anim 1.5s ease-out forwards;
+}
+
+@keyframes evo-flare-expand {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1); opacity: 1; }
+  60% { transform: scale(3); opacity: 0.8; }
+  100% { transform: scale(8); opacity: 0; }
+}
+
+@keyframes evo-flare-ring-expand {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(6); opacity: 0; }
+}
+
+@keyframes evo-flare-streak-anim {
+  0% { transform: scaleX(0); opacity: 0; }
+  20% { transform: scaleX(0.5); opacity: 1; }
+  50% { transform: scaleX(1); opacity: 0.8; }
+  100% { transform: scaleX(1.2); opacity: 0; }
+}
+
+/* ─── 4. 줌아웃 (zoom-out) ─── 4→5단계 ─── */
+
+.evo-zoom-out {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: evo-zoom-out-anim 2s ease-out forwards;
+  background: radial-gradient(circle, transparent 30%, rgba(26, 22, 43, 0.6) 100%);
+}
+
+.evo-zoom-frame {
+  width: 60%;
+  height: 60%;
+  border: 3px solid rgba(212, 175, 55, 0.6);
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), inset 0 0 30px rgba(142, 68, 173, 0.2);
+  animation: evo-zoom-frame-expand 2s ease-out forwards;
+}
+
+@keyframes evo-zoom-out-anim {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes evo-zoom-frame-expand {
+  0% { transform: scale(0.5); opacity: 0; }
+  20% { transform: scale(0.7); opacity: 1; }
+  60% { transform: scale(1); opacity: 0.8; border-color: rgba(142, 68, 173, 0.8); }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ─── 5. 대리석 와이프 (marble-wipe) ─── 5→6단계 ─── */
+
+.evo-marble-wipe {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.evo-marble-surface {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 245, 245, 0.95) 0%,
+    rgba(220, 220, 220, 0.9) 25%,
+    rgba(200, 200, 200, 0.85) 50%,
+    rgba(240, 240, 240, 0.9) 75%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  animation: evo-marble-wipe-anim 2s ease-in-out forwards;
+  clip-path: inset(0 100% 0 0);
+}
+
+@keyframes evo-marble-wipe-anim {
+  0% { clip-path: inset(0 100% 0 0); }
+  40% { clip-path: inset(0 0% 0 0); opacity: 1; }
+  60% { clip-path: inset(0 0% 0 0); opacity: 0.9; }
+  100% { clip-path: inset(0 0% 0 100%); opacity: 0; }
+}
+
+/* ─── 6. 파노라마 (panorama) ─── 6→7단계 ─── */
+
+.evo-panorama {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.evo-panorama-sweep {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.1) 20%,
+    rgba(212, 175, 55, 0.3) 40%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(142, 68, 173, 0.3) 60%,
+    rgba(142, 68, 173, 0.1) 80%,
+    transparent 100%
+  );
+  animation: evo-panorama-sweep-anim 2s ease-in-out forwards;
+}
+
+@keyframes evo-panorama-sweep-anim {
+  0% { left: -50%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 150%; opacity: 0; }
+}
+
+/* ─── 8. 폭죽+홀로그램 shimmer (firework-hologram) ─── 8→9단계 ─── */
+
+.evo-firework-hologram-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.08) 15%,
+    rgba(142, 68, 173, 0.12) 30%,
+    transparent 45%,
+    rgba(212, 175, 55, 0.1) 60%,
+    rgba(142, 68, 173, 0.08) 75%,
+    transparent 100%
+  );
+  background-size: 300% 300%;
+  animation: evo-hologram-shimmer 3s linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes evo-hologram-shimmer {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+
+/* ─── Building Display (로우폴리 건물 비주얼) ─────────────────── */
+
+.building-display-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 72px;
+}
