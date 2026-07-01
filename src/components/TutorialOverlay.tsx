@@ -91,58 +91,58 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
   return (
     <div
       className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px 16px' }}
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
     >
-      <div className="w-full max-w-[360px] bg-gradient-to-b from-[#2A2540] to-[#1A162B] rounded-3xl border border-purple/30 shadow-2xl">
+      <div className="w-full max-w-[400px] bg-gradient-to-b from-[#2A2540] to-[#1A162B] rounded-3xl border border-purple/30 shadow-2xl">
         {/* 상단 이모지 영역 */}
-        <div className="flex items-center justify-center pt-8 pb-3">
+        <div className="flex items-center justify-center pt-10 pb-4">
           <span className="text-6xl">{slide.emoji}</span>
         </div>
 
         {/* 콘텐츠 */}
-        <div className="px-6 pb-4 text-center">
-          <h2 className="text-gold font-bold text-lg mb-2 leading-tight">
+        <div className="px-8 pb-5 text-center">
+          <h2 className="text-gold font-bold text-xl mb-3 leading-tight">
             {slide.title}
           </h2>
-          <p className="text-white/80 text-sm leading-relaxed mb-3">
+          <p className="text-white/80 text-base leading-relaxed mb-4">
             {slide.description}
           </p>
           {slide.highlight && (
-            <div className="inline-block bg-purple/20 border border-purple/40 rounded-full px-4 py-1.5">
+            <div className="inline-block bg-purple/20 border border-purple/40 rounded-full px-5 py-2">
               <span className="text-purple-light text-sm font-bold">{slide.highlight}</span>
             </div>
           )}
         </div>
 
         {/* 인디케이터 */}
-        <div className="flex justify-center gap-1.5 pb-4">
+        <div className="flex justify-center gap-2 pb-5">
           {SLIDES.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all ${
                 i === currentSlide
-                  ? 'w-6 bg-gold'
+                  ? 'w-7 bg-gold'
                   : i < currentSlide
-                    ? 'w-1.5 bg-gold/50'
-                    : 'w-1.5 bg-white/20'
+                    ? 'w-2 bg-gold/50'
+                    : 'w-2 bg-white/20'
               }`}
             />
           ))}
         </div>
 
         {/* 버튼 영역 */}
-        <div className="px-6 pb-6 flex gap-3">
+        <div className="px-8 pb-8 flex gap-4">
           {!isLast && (
             <button
               onClick={handleSkip}
-              className="flex-1 py-3 rounded-xl border border-white/20 text-white/50 text-sm font-medium active:bg-white/5"
+              className="flex-1 py-4 rounded-xl border border-white/20 text-white/50 text-base font-medium active:bg-white/5"
             >
               건너뛰기
             </button>
           )}
           <button
             onClick={handleNext}
-            className={`${isLast ? 'w-full' : 'flex-1'} py-3 rounded-xl bg-gradient-to-r from-gold to-gold-dark text-dark-navy text-base font-bold shadow-lg shadow-gold/20 active:scale-95 transition-transform`}
+            className={`${isLast ? 'w-full' : 'flex-1'} py-4 rounded-xl bg-gradient-to-r from-gold to-gold-dark text-dark-navy text-lg font-bold shadow-lg shadow-gold/20 active:scale-95 transition-transform`}
           >
             {isLast ? '🎮 게임 시작!' : '다음'}
           </button>
