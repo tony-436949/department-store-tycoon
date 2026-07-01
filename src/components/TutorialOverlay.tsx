@@ -113,7 +113,7 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
         </div>
 
         {/* 중간: 인디케이터 */}
-        <div className="flex justify-center gap-2 py-4">
+        <div className="flex justify-center gap-2 pb-2">
           {SLIDES.map((_, i) => (
             <div
               key={i}
@@ -129,7 +129,7 @@ export function TutorialOverlay({ onComplete }: TutorialOverlayProps) {
         </div>
 
         {/* 하단: 버튼 */}
-        <div className="px-6 pb-6 flex gap-4">
+        <div className="px-6 pt-4 pb-6 flex gap-4">
           {!isLast && (
             <button
               onClick={handleSkip}
