@@ -31,7 +31,7 @@ export function BuildingDisplay({ evolutionStage }: BuildingDisplayProps) {
   return (
     <div className="w-full h-full relative">
       <img
-        src={`/stage-${displayStage}.png`}
+        src={`${import.meta.env.BASE_URL}stage-${displayStage}.png`}
         alt={`${displayStage}단계`}
         className="absolute inset-0 w-full h-full object-cover"
         style={{
