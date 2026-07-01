@@ -8,6 +8,7 @@ import { TouchEffectLayer } from './components/TouchEffectLayer';
 import { VIPOverlay } from './components/VIPOverlay';
 import { EvolutionOverlay } from './components/EvolutionOverlay';
 import EndingPopup from './components/EndingPopup';
+import { TutorialOverlay, isTutorialDone } from './components/TutorialOverlay';
 import { useGameEngine } from './hooks/useGameEngine';
 import { EVOLUTION_STAGES } from './constants';
 import type { TouchEffect } from './types';
@@ -35,6 +36,7 @@ function App() {
 
   const [touchEffects, setTouchEffects] = useState<TouchEffect[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(!isTutorialDone());
   const shakeTimeoutRef = useRef<number>(0);
   const [shaking, setShaking] = useState(false);
   const currentStage = EVOLUTION_STAGES[stateRef.current.evolutionStage - 1];
@@ -130,6 +132,9 @@ function App() {
       {isGameOver && (
         <EndingPopup clearTime={stateRef.current.elapsedTime} totalEarned={stateRef.current.totalEarned} touchCount={stateRef.current.touchCount} onReset={handleReset} />
       )}
+
+      {/* 튜토리얼 (최초 접속 시) */}
+      {showTutorial && <TutorialOverlay onComplete={() => setShowTutorial(false)} />}
     </div>
   );
 }
